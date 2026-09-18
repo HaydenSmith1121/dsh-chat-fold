@@ -1,0 +1,43 @@
+MIT License
+
+Copyright (c) 2026 HaydenSmith1121
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+────────────────────────────────────────────────────────────────────────────
+范围说明 / Scope
+
+本许可覆盖本仓库的**文档、清单与自研插件**（plugins/、snapshots/、src/、
+manifest.json、scripts/、GitHub Actions 工作流、docs/）。
+
+两处例外，版权与许可归各自原作者，本仓库只做打包与分发，且已在包内随附声明：
+
+  · dsh-opencode-go-plus —— 派生自 Duskriver/dsh-opencode-go（MIT）。
+    完整归属与本文档相对基线的差异见该插件 README 与包内 THIRD_PARTY_NOTICES.md。
+  · dsh-excel-viewer —— tarball 内**内联分发** SheetJS Community Edition
+    （Apache-2.0）。它被内联进 lib/client.js，不是运行时依赖；
+    完整归属与合规动作见该插件 README 与包内 THIRD_PARTY_NOTICES.md。
+
+本仓库**不再分发任何第三方插件**的字节：早先随市场仓库一起分发的 4 个第三方插件
+（@dsh-market/plugin、dsh-workbuddy-connect、dsh-connect-trae、dsh-receipt）
+的 tarball 已从本仓库与市场仓库一并移除。想装它们请去各自的上游仓库，
+版权与许可归上游作者。
+
+市场（目录与面板插件）在另一个仓库，许可见：
+  https://github.com/HaydenSmith1121/dsh-plugins

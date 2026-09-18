@@ -1,0 +1,55 @@
+name: check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+
+      # 客户端 bundle 是 classic script（不能用 import/export），
+      # 而宿主半是 ESM —— 两份都要能解析，且客户端那份必须走
+      # __ModuleLoader__.load 注册，否则页面会“loaded without registering”。
+      - name: 语法检查
+        run: |
+          node --check lib/index.js
+          node --check lib/client.js
+
+      - name: 客户端注册契约
+        run: |
+          node -e "
+            const fs = require('node:fs');
+            const src = fs.readFileSync('lib/client.js', 'utf8');
+            const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+            const fail = (m) => { console.error('✗ ' + m); process.exit(1); };
+
+            if (/^\s*(import|export)\s/m.test(src)) fail('客户端半出现了 import/export —— classic script 不允许');
+            if (!src.includes('__ModuleLoader__.load')) fail('客户端半没有通过 __ModuleLoader__.load 注册');
+            if (!src.includes(JSON.stringify(pkg.name))) fail('load({ id }) 与包名不一致');
+            if (!src.includes('exports.apply')) fail('客户端半没有导出 apply');
+            if (pkg.dsh?.client?.platform !== 'web') fail('package.json 缺少 dsh.client.platform=web');
+            if (!pkg.exports?.['./client']) fail('package.json 缺少 exports[./client]');
+            if (!fs.existsSync(pkg.dsh?.bundle?.patch ?? '')) fail('cordis.patch.yml 缺失');
+
+            const patch = fs.readFileSync(pkg.dsh.bundle.patch, 'utf8');
+            if (!patch.includes(pkg.name)) fail('patch 里的 name 与包名不一致');
+            console.log('✓ 客户端注册契约通过');
+          "
+
+      - name: 打包
+        run: npm pack --pack-destination /tmp
+
+      - name: 包内容检查
+        run: |
+          tar -tzf /tmp/dsh-chat-fold-*.tgz | sort
+          tar -tzf /tmp/dsh-chat-fold-*.tgz | grep -q 'package/lib/client.js' || (echo '✗ 缺 client.js'; exit 1)
+          tar -tzf /tmp/dsh-chat-fold-*.tgz | grep -q 'package/cordis.patch.yml' || (echo '✗ 缺 cordis.patch.yml'; exit 1)
+          echo '✓ 包内容正确'

@@ -1,0 +1,64 @@
+{
+  "name": "dsh-chat-fold",
+  "version": "0.1.0",
+  "description": "DeepSeek Harness 对话折叠：让思考行与工具行可以单独收起，并在回合结束后自动折叠中间过程。官方 Chat 的紧凑折叠在「回合未结束」或「历史未全部加载」时完全不生效，长回合于是铺满几十条过程行；本插件补上这层，不改写任何官方节点。",
+  "type": "module",
+  "license": "MIT",
+  "author": "HaydenSmith1121",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HaydenSmith1121/dsh-chat-fold.git"
+  },
+  "homepage": "https://github.com/HaydenSmith1121/dsh-chat-fold#readme",
+  "bugs": {
+    "url": "https://github.com/HaydenSmith1121/dsh-chat-fold/issues"
+  },
+  "engines": {
+    "node": "^22.19.0 || >=24.0.0"
+  },
+  "main": "./lib/index.js",
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml",
+    "docs",
+    "README.md",
+    "LICENSE"
+  ],
+  "dsh": {
+    "manifestVersion": 1,
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [],
+      "external": []
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "4.0.2"
+  },
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "dsh-plugin",
+    "chat",
+    "fold",
+    "collapse",
+    "collapsible",
+    "transcript",
+    "ui-plugin",
+    "对话折叠",
+    "折叠",
+    "cordis"
+  ]
+}
